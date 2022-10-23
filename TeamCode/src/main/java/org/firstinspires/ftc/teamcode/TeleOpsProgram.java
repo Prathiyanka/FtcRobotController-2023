@@ -19,6 +19,8 @@ public class TeleOpsProgram extends LinearOpMode {
     public DcMotor LB;
     public DcMotor L1;
     public DcMotor L2;
+    public DcMotor rIntake;
+    public DcMotor lIntake;
     public Servo RS;
     public Servo LS;
     public Servo Twist;
@@ -40,15 +42,29 @@ public class TeleOpsProgram extends LinearOpMode {
 
         L1 = hardwareMap.get(DcMotor.class, "L1");
         L2 = hardwareMap.get(DcMotor.class, "L2");
+        rIntake = hardwareMap.get(DcMotor.class, "rIntake");
+        lIntake = hardwareMap.get(DcMotor.class, "lIntake");
         RS = hardwareMap.get(Servo.class, "RS");
         LS = hardwareMap.get(Servo.class, "LS");
         Twist = hardwareMap.get(Servo.class, "Twist");
 
         LF.setDirection(DcMotorSimple.Direction.REVERSE);
         LB.setDirection(DcMotorSimple.Direction.REVERSE);
-        L1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        waitForStart();
 
+        L1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        L1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        L1.setTargetPosition(0);
+        L1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        L2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        L2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        L2.setTargetPosition(0);
+        L2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        int tTicks = 0;
+        int tTicks2 = 0;
+        double speed = 1;
+        double tPos = 0.73;
+        waitForStart();
         if (opModeIsActive()) {
 
             while (opModeIsActive()) {
@@ -60,7 +76,6 @@ public class TeleOpsProgram extends LinearOpMode {
                 double drive  = gamepad1.left_stick_y * -1;
                 double strafe = gamepad1.left_stick_x;
                 double twist  = gamepad1.right_stick_x;
-
                 /*
                  * If we had a gyro and wanted to do field-oriented control, here
                  * is where we would implement it.
@@ -108,46 +123,85 @@ public class TeleOpsProgram extends LinearOpMode {
                 }
 
                 // apply the calculated values to the motors.
-                LF.setPower(speeds[0]);
-                RF.setPower(speeds[1]);
-                LB.setPower(speeds[2]);
-                RB.setPower(speeds[3]);
-                if(gamepad2.left_stick_y>0.1||gamepad2.left_stick_y<-0.1){
-                    if(gamepad2.left_stick_y>0.1){
-                        L1.setTargetPosition((int)(L1.getCurrentPosition() + 10));
-                        L1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                        L1.setPower(0.5);
-                    }
-                    if(gamepad2.left_stick_y<-0.1){
-                        L1.setTargetPosition((int)(L1.getCurrentPosition() + 10));
-                        L1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-                        L1.setPower(0.5);
-                    }
-                } else{
-                    L1.setTargetPosition(L1.getCurrentPosition());
-                    L1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                LF.setPower(speeds[0] * speed);
+                RF.setPower(speeds[1] * speed);
+                LB.setPower(speeds[2] * speed);
+                RB.setPower(speeds[3] * speed);
+                if(gamepad2.left_stick_y < -0.1){
+                    tTicks += 3;
+                    L1.setTargetPosition(tTicks);
+                    L1.setPower(0.9);
+                }else if(gamepad2.left_stick_y > 0.1){
+                    tTicks -= 3;
+                    L1.setTargetPosition(tTicks);
+                    L1.setPower(0.3);
+                }
+                if (gamepad2.a) {
+                    LS.setPosition(0.05);
+                    RS.setPosition(0.6);
+                    tTicks = 215;
+                    tTicks2 = -30;
+                    L1.setTargetPosition(tTicks);
                     L1.setPower(0.5);
-                }
-
-                if(gamepad2.a){
-                    LS.setPosition(0.6);
-                    RS.setPosition(0);
-                }
-                if(gamepad2.x){
-                    LS.setPosition(0);
-                    RS.setPosition(0.5);
+                    L2.setTargetPosition(tTicks2);
+                    L2.setPower(0.5);
 
                 }
-                if(gamepad2.right_stick_y>0.1||gamepad2.right_stick_y<-0.1){
-                    if(gamepad2.right_stick_y>0.1){
-                        Twist.setPosition(Twist.getPosition()+0.001);
-                    }
-                    if(gamepad2.right_stick_y<-0.1){
-                        Twist.setPosition(Twist.getPosition()-0.001);
-                    }
+
+                telemetry.addData("L1",L1.getCurrentPosition());
+                telemetry.addData("L2",L2.getCurrentPosition());
+                telemetry.addData("Target ticks",tTicks);
+
+                if(gamepad1.a){
+                    LS.setPosition(0.55);
+                    RS.setPosition(0.4);
                 }
+                if(gamepad1.x){
+                    LS.setPosition(0.05);
+                    RS.setPosition(0.6);
+
+                }
+                if (gamepad1.left_bumper){
+                    speed = 0.5;
+                }
+                else{
+                    speed = 1;
+                }
+                if (gamepad2.left_bumper){
+                    tPos += 0.006;
+                }else if (gamepad2.right_bumper){
+                    tPos -= 0.006;
+                }
+                if (tPos > 1){
+                    tPos = 1;
+                }
+                if (tPos < 0){
+                    tPos = 0;
+                }
+                Twist.setPosition(tPos);
+
+                if(gamepad2.right_stick_y > 0.1){
+                    tTicks2 += 2;
+                    L2.setTargetPosition(tTicks2);
+                    L2.setPower(0.9);
+                }else if(gamepad2.right_stick_y < -0.1){
+                    tTicks2 -= 2;
+                    L2.setTargetPosition(tTicks2);
+                    L2.setPower(0.3);
+                }
+                if(gamepad2.dpad_up){
+                    rIntake.setPower(0.5);
+                    lIntake.setPower(-0.5);
+                    //Nakul is cool
+                }
+                else {
+                    rIntake.setPower(0);
+                    lIntake.setPower(0);
+                }
+
                 telemetry.addData("RS:",RS.getPosition());
                 telemetry.addData("LS:",LS.getPosition());
+                telemetry.addData("Twist:",tPos);
                 telemetry.update();
 
             }
