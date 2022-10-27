@@ -25,12 +25,84 @@ public abstract class MasterOpMode extends LinearOpMode {
         RF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        double TotalTicks = 537.7 * driveInches / 12.566;
+        double TotalTicks = 560 * driveInches / 12.566;
 
         targetticks = (int) TotalTicks;
         LF.setTargetPosition(targetticks);
         LB.setTargetPosition(targetticks);
         RF.setTargetPosition(targetticks);
+        RB.setTargetPosition(targetticks);
+        LF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        RF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        LB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        RB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        LF.setPower(power);
+        LB.setPower(power);
+        RF.setPower(power);
+        RB.setPower(power);
+        while (RB.isBusy() || LB.isBusy() || LF.isBusy() || RF.isBusy()) {
+            telemetry.addData("TotalTicks", TotalTicks);
+            telemetry.addData("LF", LF.getCurrentPosition());
+            telemetry.addData("RF", RF.getCurrentPosition());
+            telemetry.addData("LB", LB.getCurrentPosition());
+            telemetry.addData("RB", RB.getCurrentPosition());
+            telemetry.update();
+        }
+        telemetry.update();
+        pauseMillis(10000);
+    }
+    public void turnRight(double turnAngle, double power) {
+        Initialize();
+        LF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        LB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        double TotalTicks = 560 * turnAngle / 360;
+
+        targetticks = (int) TotalTicks;
+        LF.setTargetPosition(targetticks);
+        LB.setTargetPosition(targetticks);
+        RF.setTargetPosition(-targetticks);
+        RB.setTargetPosition(-targetticks);
+        LF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        RF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        LB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        RB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+        LF.setPower(power);
+        LB.setPower(power);
+        RF.setPower(power);
+        RB.setPower(power);
+        while (RB.isBusy() || LB.isBusy() || LF.isBusy() || RF.isBusy()) {
+            telemetry.addData("TotalTicks", TotalTicks);
+            telemetry.addData("LF", LF.getCurrentPosition());
+            telemetry.addData("RF", RF.getCurrentPosition());
+            telemetry.addData("LB", LB.getCurrentPosition());
+            telemetry.addData("RB", RB.getCurrentPosition());
+            telemetry.update();
+        }
+        telemetry.update();
+        pauseMillis(10000);
+    }
+    public void strafeRight(double driveInches, double power) {
+        Initialize();
+        LF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        LB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        double TotalTicks = 350 * driveInches;
+
+        targetticks = (int) TotalTicks;
+        LF.setTargetPosition(targetticks);
+        LB.setTargetPosition(-targetticks);
+        RF.setTargetPosition(-targetticks);
         RB.setTargetPosition(targetticks);
         LF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         RF.setMode(DcMotor.RunMode.RUN_TO_POSITION);

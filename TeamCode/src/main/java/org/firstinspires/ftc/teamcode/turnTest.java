@@ -8,8 +8,8 @@ import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 
 
-@Autonomous( name = "EncoderTest", group = "")
-public class EncoderTest extends MasterOpMode {
+@Autonomous( name = "EncoderTestTurn", group = "")
+public class turnTest extends MasterOpMode {
 
     public DcMotor RF;
     public DcMotor LF;
@@ -39,7 +39,8 @@ public class EncoderTest extends MasterOpMode {
         waitForStart();
         if (opModeIsActive()) {
             //forward(30, 0.5);
-            strafeRight(30, 0.5);
+            turnRight(
+                    30, 0.5);
             /*while (true){
                 telemetry.addData("TT", targetticks);
                 telemetry.addData("LF", LF.getCurrentPosition());
