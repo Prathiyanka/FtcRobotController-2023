@@ -21,7 +21,6 @@ public class TeleOpsProgram extends LinearOpMode {
     public DcMotor L2;
     public DcMotor rIntake;
     public DcMotor lIntake;
-    public Servo RS;
     public Servo LS;
     public Servo Twist;
 
@@ -44,7 +43,6 @@ public class TeleOpsProgram extends LinearOpMode {
         L2 = hardwareMap.get(DcMotor.class, "L2");
         rIntake = hardwareMap.get(DcMotor.class, "rIntake");
         lIntake = hardwareMap.get(DcMotor.class, "lIntake");
-        RS = hardwareMap.get(Servo.class, "RS");
         LS = hardwareMap.get(Servo.class, "LS");
         Twist = hardwareMap.get(Servo.class, "Twist");
 
@@ -63,7 +61,7 @@ public class TeleOpsProgram extends LinearOpMode {
         int tTicks = 0;
         int tTicks2 = 0;
         double speed = 1;
-        double tPos = 0.73;
+        double tPos = 0.31;
         waitForStart();
         if (opModeIsActive()) {
 
@@ -128,24 +126,33 @@ public class TeleOpsProgram extends LinearOpMode {
                 LB.setPower(speeds[2] * speed);
                 RB.setPower(speeds[3] * speed);
                 if(gamepad2.left_stick_y < -0.1){
-                    tTicks += 3;
+                    tTicks += 6;
                     L1.setTargetPosition(tTicks);
                     L1.setPower(0.9);
                 }else if(gamepad2.left_stick_y > 0.1){
-                    tTicks -= 3;
+                    tTicks -= 6;
                     L1.setTargetPosition(tTicks);
                     L1.setPower(0.3);
                 }
                 if (gamepad2.a) {
-                    LS.setPosition(0.05);
-                    RS.setPosition(0.6);
-                    tTicks = 215;
-                    tTicks2 = -30;
+
+                    tTicks = 180;
+                    tTicks2 = -60;
                     L1.setTargetPosition(tTicks);
                     L1.setPower(0.5);
                     L2.setTargetPosition(tTicks2);
                     L2.setPower(0.5);
+                    tPos = 0.31;
 
+                }
+                if(gamepad2.x){
+                    tTicks = 1260;
+                    tTicks2 = -840;
+                    L1.setTargetPosition(tTicks);
+                    L1.setPower(0.5);
+                    L2.setTargetPosition(tTicks2);
+                    L2.setPower(0.5);
+                    tPos = 0.7;
                 }
 
                 telemetry.addData("L1",L1.getCurrentPosition());
@@ -153,12 +160,10 @@ public class TeleOpsProgram extends LinearOpMode {
                 telemetry.addData("Target ticks",tTicks);
 
                 if(gamepad1.a){
-                    LS.setPosition(0.55);
-                    RS.setPosition(0.4);
+                    LS.setPosition(0.5);
                 }
                 if(gamepad1.x){
                     LS.setPosition(0.05);
-                    RS.setPosition(0.6);
 
                 }
                 if (gamepad1.left_bumper){
@@ -181,15 +186,15 @@ public class TeleOpsProgram extends LinearOpMode {
                 Twist.setPosition(tPos);
 
                 if(gamepad2.right_stick_y > 0.1){
-                    tTicks2 += 2;
+                    tTicks2 += 4;
                     L2.setTargetPosition(tTicks2);
                     L2.setPower(0.9);
                 }else if(gamepad2.right_stick_y < -0.1){
-                    tTicks2 -= 2;
+                    tTicks2 -= 4;
                     L2.setTargetPosition(tTicks2);
                     L2.setPower(0.3);
                 }
-                if(gamepad2.dpad_up){
+                if(gamepad2.dpad_down){
                     rIntake.setPower(0.5);
                     lIntake.setPower(-0.5);
                     //Nakul is cool
@@ -199,7 +204,7 @@ public class TeleOpsProgram extends LinearOpMode {
                     lIntake.setPower(0);
                 }
 
-                telemetry.addData("RS:",RS.getPosition());
+
                 telemetry.addData("LS:",LS.getPosition());
                 telemetry.addData("Twist:",tPos);
                 telemetry.update();

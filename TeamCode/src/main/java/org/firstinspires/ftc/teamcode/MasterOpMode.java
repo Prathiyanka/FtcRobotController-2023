@@ -61,7 +61,7 @@ public abstract class MasterOpMode extends LinearOpMode {
         RF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        double TotalTicks = 560 * turnAngle / 360;
+        double TotalTicks = 11.5 * turnAngle;
 
         targetticks = (int) TotalTicks;
         LF.setTargetPosition(targetticks);
@@ -97,7 +97,7 @@ public abstract class MasterOpMode extends LinearOpMode {
         RF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         LB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
-        double TotalTicks = 350 * driveInches;
+        double TotalTicks = 50 * driveInches;
 
         targetticks = (int) TotalTicks;
         LF.setTargetPosition(targetticks);

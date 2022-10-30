@@ -40,7 +40,7 @@ public class turnTest extends MasterOpMode {
         if (opModeIsActive()) {
             //forward(30, 0.5);
             turnRight(
-                    30, 0.5);
+                    360, 0.5);
             /*while (true){
                 telemetry.addData("TT", targetticks);
                 telemetry.addData("LF", LF.getCurrentPosition());
