@@ -166,16 +166,31 @@ public class TeleOpsProgram extends LinearOpMode {
                     LS.setPosition(0.05);
 
                 }
+                //Prevents stick drift
+                if (gamepad1.right_stick_x < 0.1 && gamepad1.right_stick_x > -0.1){
+                    gamepad1.right_stick_x = 0;
+                }
+                if (gamepad1.left_stick_y < 0.1 && gamepad1.left_stick_y > -0.1){
+                    gamepad1.left_stick_y = 0;
+                }
+                if (gamepad1.left_stick_x < 0.1 && gamepad1.left_stick_x > -0.1){
+                    gamepad1.left_stick_x = 0;
+                }
                 if (gamepad1.left_bumper){
-                    speed = 0.5;
+                    speed = 0.4;
                 }
                 else{
                     speed = 1;
                 }
                 if (gamepad2.left_bumper){
-                    tPos += 0.006;
+                    rIntake.setPower(0.5);
+                    lIntake.setPower(-0.5);
                 }else if (gamepad2.right_bumper){
-                    tPos -= 0.006;
+                    rIntake.setPower(-0.5);
+                    lIntake.setPower(0.5);
+                }else {
+                    rIntake.setPower(0);
+                    lIntake.setPower(0);
                 }
                 if (tPos > 1){
                     tPos = 1;
@@ -198,10 +213,6 @@ public class TeleOpsProgram extends LinearOpMode {
                     rIntake.setPower(0.5);
                     lIntake.setPower(-0.5);
                     //Nakul is cool
-                }
-                else {
-                    rIntake.setPower(0);
-                    lIntake.setPower(0);
                 }
 
 

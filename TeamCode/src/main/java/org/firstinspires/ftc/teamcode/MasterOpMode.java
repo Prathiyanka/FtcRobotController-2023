@@ -36,20 +36,25 @@ public abstract class MasterOpMode extends LinearOpMode {
         RF.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         LB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
         RB.setMode(DcMotor.RunMode.RUN_TO_POSITION);
-        LF.setPower(power);
-        LB.setPower(power);
-        RF.setPower(power);
-        RB.setPower(power);
-        while (RB.isBusy() || LB.isBusy() || LF.isBusy() || RF.isBusy()) {
+        double count = 0;
+        while(count<power){
+            LF.setPower(count);
+            LB.setPower(count);
+            RF.setPower(count);
+            RB.setPower(count);
+            count +=0.02;
+        }
+        telemetry.update();
+        /*while (RB.isBusy() || LB.isBusy() || LF.isBusy() || RF.isBusy()) {
             telemetry.addData("TotalTicks", TotalTicks);
             telemetry.addData("LF", LF.getCurrentPosition());
             telemetry.addData("RF", RF.getCurrentPosition());
             telemetry.addData("LB", LB.getCurrentPosition());
             telemetry.addData("RB", RB.getCurrentPosition());
             telemetry.update();
-        }
-        telemetry.update();
-        pauseMillis(10000);
+        }*/
+
+        //pauseMillis(10000);
     }
     public void turnRight(double turnAngle, double power) {
         Initialize();
@@ -76,16 +81,16 @@ public abstract class MasterOpMode extends LinearOpMode {
         LB.setPower(power);
         RF.setPower(power);
         RB.setPower(power);
-        while (RB.isBusy() || LB.isBusy() || LF.isBusy() || RF.isBusy()) {
+        /*while (RB.isBusy() || LB.isBusy() || LF.isBusy() || RF.isBusy()) {
             telemetry.addData("TotalTicks", TotalTicks);
             telemetry.addData("LF", LF.getCurrentPosition());
             telemetry.addData("RF", RF.getCurrentPosition());
             telemetry.addData("LB", LB.getCurrentPosition());
             telemetry.addData("RB", RB.getCurrentPosition());
             telemetry.update();
-        }
+        }*/
         telemetry.update();
-        pauseMillis(10000);
+        //pauseMillis(10000);
     }
     public void strafeRight(double driveInches, double power) {
         Initialize();
@@ -112,16 +117,15 @@ public abstract class MasterOpMode extends LinearOpMode {
         LB.setPower(power);
         RF.setPower(power);
         RB.setPower(power);
-        while (RB.isBusy() || LB.isBusy() || LF.isBusy() || RF.isBusy()) {
+        /*while (RB.isBusy() || LB.isBusy() || LF.isBusy() || RF.isBusy()) {
             telemetry.addData("TotalTicks", TotalTicks);
             telemetry.addData("LF", LF.getCurrentPosition());
             telemetry.addData("RF", RF.getCurrentPosition());
             telemetry.addData("LB", LB.getCurrentPosition());
             telemetry.addData("RB", RB.getCurrentPosition());
             telemetry.update();
-        }
+        }*/
         telemetry.update();
-        pauseMillis(10000);
     }
     public void pauseMillis(double time) {
         double startTime = System.currentTimeMillis();
