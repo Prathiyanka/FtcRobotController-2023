@@ -3,6 +3,8 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import java.lang.Math;
+
+import com.qualcomm.robotcore.eventloop.opmode.OpMode;
 import com.qualcomm.robotcore.hardware.CRServo;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
@@ -39,7 +41,14 @@ public class EncoderTest extends MasterOpMode {
         waitForStart();
         if (opModeIsActive()) {
             //forward(30, 0.5);
-            strafeRight(30, 0.5);
+            forward(-50, 0.8);
+            while(opModeIsActive()){
+                telemetry.addData("LF", LF.getCurrentPosition());
+                telemetry.addData("count", count);
+                telemetry.addData("LF power",LF.getPower());
+                telemetry.update();
+            }
+
             /*while (true){
                 telemetry.addData("TT", targetticks);
                 telemetry.addData("LF", LF.getCurrentPosition());

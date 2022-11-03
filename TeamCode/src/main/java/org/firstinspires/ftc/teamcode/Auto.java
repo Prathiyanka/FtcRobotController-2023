@@ -3,6 +3,7 @@ package org.firstinspires.ftc.teamcode;
 import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 
 
 @Autonomous( name = "Autonomous", group = "")
@@ -12,6 +13,12 @@ public class Auto extends MasterOpMode {
     public DcMotor LF;
     public DcMotor RB;
     public DcMotor LB;
+    public DcMotor L1;
+    public DcMotor L2;
+    public DcMotor rIntake;
+    public DcMotor lIntake;
+    public Servo LS;
+    public Servo Twist;
     @Override
     public void runOpMode() {
 
@@ -20,6 +27,13 @@ public class Auto extends MasterOpMode {
         LF = hardwareMap.get(DcMotor.class, "LF");
         RB = hardwareMap.get(DcMotor.class, "RB");
         RF = hardwareMap.get(DcMotor.class, "RF");
+
+        L1 = hardwareMap.get(DcMotor.class, "L1");
+        L2 = hardwareMap.get(DcMotor.class, "L2");
+        rIntake = hardwareMap.get(DcMotor.class, "rIntake");
+        lIntake = hardwareMap.get(DcMotor.class, "lIntake");
+        LS = hardwareMap.get(Servo.class, "LS");
+        Twist = hardwareMap.get(Servo.class, "Twist");
 
         /* robot has the wheels placed backwards so when you give
         positive power it moves backward so we reverse so this
@@ -36,38 +50,101 @@ public class Auto extends MasterOpMode {
         LB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
         RB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
 
+        L1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        L1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        L1.setTargetPosition(0);
+        L1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        L2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        L2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        L2.setTargetPosition(0);
+        L2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        Twist.setPosition(0.31);
+        L1.setTargetPosition(180);
+        L1.setPower(0.5);
+        L2.setTargetPosition(-60);
+        L2.setPower(0.5);
+        LS.setPosition(0.5);
         waitForStart();
         if (opModeIsActive()) {
-            forward(15, 0.8);
+            rIntake.setPower(0.5);
+            lIntake.setPower(-0.5);
+            forward(22, 0.8);
+            pauseMillis(600);
             //pick
-            pauseMillis(400);
-            forward(32.5, 0.9);
+            LS.setPosition(0.05);
+            pauseMillis(100);
+            rIntake.setPower(0);
+            lIntake.setPower(-0);
+            L2.setTargetPosition(600);
+            L2.setPower(0.5);
+            L1.setTargetPosition(150);
+            L1.setPower(0.5);
+            forward(26, 0.9);
             pauseMillis(1250);
-            turnRight(-45, 0.5);
-            pauseMillis(750);
+            //arm up
+            L1.setTargetPosition(1100);
+            L1.setPower(0.5);
+            L2.setTargetPosition(-725);
+            L2.setPower(0.5);
+            Twist.setPosition(0.7);
+            turnRight(-45, 0.6);
+            pauseMillis(900);
             forward(7,0.9);
             pauseMillis(500);
+
             //drop stuff
-            forward(-7,0.9);
+            LS.setPosition(0.5);
             pauseMillis(500);
-            for(int i = 0; i<5; i++) {
-                turnRight(130, 0.5);
+            forward(-9,0.9);
+            //pauseMillis(500);
+            for(int i = 0; i<2; i++) {
+                turnRight(130, 0.6);
+                pauseMillis(1400);
+                //setting lower pos
+                Twist.setPosition(0.55);
+                L1.setTargetPosition(-1100);
+                L1.setPower(0.5);
+                L2.setTargetPosition(400);
+                L2.setPower(0.5);
+                LS.setPosition(0.5);
                 pauseMillis(1500);
-                forward(24, 0.9);
-                pauseMillis(1000);
+                forward(14, 0.9);
+                pauseMillis(750);
                 //pick
-                forward(-24, 0.9);
-                pauseMillis(850);
-                turnRight(-128, 0.5);
-                pauseMillis(1500);
+                LS.setPosition(0.05);
+                pauseMillis(500);
+                //arm up
+                if(i==0) {
+                    L1.setTargetPosition(1800);
+                    L1.setPower(0.5);
+                    L2.setTargetPosition(-400);
+                    L2.setPower(0.5);
+                    Twist.setPosition(0.7);
+                }else{
+                    L1.setTargetPosition(3500);
+                    L1.setPower(0.5);
+                    L2.setTargetPosition(-300);
+                    L2.setPower(0.5);
+                    Twist.setPosition(0.7);
+                }
+                pauseMillis(750);
+                forward(-14, 0.9);
+                pauseMillis(750);
+                turnRight(-130, 0.6);
+                pauseMillis(1400);
                 forward(7,0.9);
                 pauseMillis(500);
                 //drop stuff
+                LS.setPosition(0.5);
+                pauseMillis(500);
                 forward(-7,0.9);
                 pauseMillis(500);
 
             }
-
+            turnRight(-45,0.6);
+            pauseMillis(600);
         }
 
     }
