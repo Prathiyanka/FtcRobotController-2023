@@ -135,7 +135,7 @@ public class TeleOpsProgram extends LinearOpMode {
                     L1.setPower(0.3);
                 }
                 if (gamepad2.a) {
-
+                    LS.setPosition(0.7);
                     tTicks = 180;
                     tTicks2 = -60;
                     L1.setTargetPosition(tTicks);
@@ -160,10 +160,10 @@ public class TeleOpsProgram extends LinearOpMode {
                 telemetry.addData("Target ticks",tTicks);
 
                 if(gamepad1.a){
-                    LS.setPosition(0.5);
+                    LS.setPosition(0.7);
                 }
                 if(gamepad1.x){
-                    LS.setPosition(0.05);
+                    LS.setPosition(0.1);
 
                 }
                 //Prevents stick drift
@@ -227,4 +227,3 @@ public class TeleOpsProgram extends LinearOpMode {
     }
 
 }
-

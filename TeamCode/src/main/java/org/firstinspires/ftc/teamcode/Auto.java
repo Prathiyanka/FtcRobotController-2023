@@ -35,9 +35,9 @@ public class Auto extends MasterOpMode {
         LS = hardwareMap.get(Servo.class, "LS");
         Twist = hardwareMap.get(Servo.class, "Twist");
 
-        /* robot has the wheels placed backwards so when you give
-        positive power it moves backward so we reverse so this
-        is not confusing in the code*/
+       /* robot has the wheels placed backwards so when you give
+       positive power it moves backward so we reverse so this
+       is not confusing in the code*/
         LF.setDirection(DcMotorSimple.Direction.REVERSE);
         LB.setDirection(DcMotorSimple.Direction.REVERSE);
 
@@ -65,7 +65,7 @@ public class Auto extends MasterOpMode {
         L1.setPower(0.5);
         L2.setTargetPosition(-60);
         L2.setPower(0.5);
-        LS.setPosition(0.5);
+        LS.setPosition(0.7);
         waitForStart();
         if (opModeIsActive()) {
             rIntake.setPower(0.5);
@@ -73,81 +73,79 @@ public class Auto extends MasterOpMode {
             forward(22, 0.8);
             pauseMillis(600);
             //pick
-            LS.setPosition(0.05);
+            LS.setPosition(0.1);
             pauseMillis(100);
             rIntake.setPower(0);
             lIntake.setPower(-0);
-            L2.setTargetPosition(600);
+            L2.setTargetPosition(150);
             L2.setPower(0.5);
             L1.setTargetPosition(150);
             L1.setPower(0.5);
             forward(26, 0.9);
             pauseMillis(1250);
             //arm up
-            L1.setTargetPosition(1100);
+            L1.setTargetPosition(1175);
             L1.setPower(0.5);
-            L2.setTargetPosition(-725);
+            L2.setTargetPosition(-840);
             L2.setPower(0.5);
             Twist.setPosition(0.7);
             turnRight(-45, 0.6);
             pauseMillis(900);
-            forward(7,0.9);
+            forward(6,0.9);
             pauseMillis(500);
 
             //drop stuff
-            LS.setPosition(0.5);
+            LS.setPosition(0.7);
             pauseMillis(500);
-            forward(-9,0.9);
+            forward(-6,0.9);
             //pauseMillis(500);
             for(int i = 0; i<2; i++) {
-                turnRight(130, 0.6);
-                pauseMillis(1400);
                 //setting lower pos
-                Twist.setPosition(0.55);
-                L1.setTargetPosition(-1100);
-                L1.setPower(0.5);
-                L2.setTargetPosition(400);
-                L2.setPower(0.5);
-                LS.setPosition(0.5);
-                pauseMillis(1500);
-                forward(14, 0.9);
-                pauseMillis(750);
-                //pick
-                LS.setPosition(0.05);
-                pauseMillis(500);
-                //arm up
-                if(i==0) {
-                    L1.setTargetPosition(1800);
-                    L1.setPower(0.5);
-                    L2.setTargetPosition(-400);
-                    L2.setPower(0.5);
-                    Twist.setPosition(0.7);
+                Twist.setPosition(0.6);
+                if(i == 0) {
+                    L1.setTargetPosition(200);
                 }else{
-                    L1.setTargetPosition(3500);
-                    L1.setPower(0.5);
-                    L2.setTargetPosition(-300);
-                    L2.setPower(0.5);
-                    Twist.setPosition(0.7);
+                    L1.setTargetPosition(100);
+                }
+                L1.setPower(0.5);
+                L2.setTargetPosition(-500);
+                L2.setPower(0.5);
+                LS.setPosition(0.8);
+                turnRight(135, 0.6);
+                pauseMillis(1500);
+                if (i == 0){
+                    forward(14, 0.9);
+                } else{
+                    forward(15,0.9);
                 }
                 pauseMillis(750);
-                forward(-14, 0.9);
+                //pick
+                LS.setPosition(0.1);
+                pauseMillis(500);
+                //arm up
+                L1.setTargetPosition(1250);
+                L1.setPower(0.5);
+                L2.setTargetPosition(-840);
+                L2.setPower(0.5);
+                Twist.setPosition(0.7);
                 pauseMillis(750);
-                turnRight(-130, 0.6);
+                forward (-16,0.9);
+                pauseMillis(750);
+                turnRight(-135, 0.6);
                 pauseMillis(1400);
                 forward(7,0.9);
                 pauseMillis(500);
                 //drop stuff
-                LS.setPosition(0.5);
+                LS.setPosition(0.7);
                 pauseMillis(500);
                 forward(-7,0.9);
                 pauseMillis(500);
 
             }
-            turnRight(-45,0.6);
-            pauseMillis(600);
+            turnRight(-50,0.6);
+            pauseMillis(900);
         }
 
     }
 
 }
-
