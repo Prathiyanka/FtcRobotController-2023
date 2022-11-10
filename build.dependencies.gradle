@@ -15,7 +15,12 @@ dependencies {
     implementation 'org.firstinspires.ftc:OnBotJava:8.0.0'
     implementation 'org.firstinspires.ftc:Hardware:8.0.0'
     implementation 'org.firstinspires.ftc:FtcCommon:8.0.0'
+    /*implementation 'org.tensorflow:tensorflow-lite:2.10.0'
+    implementation 'org.tensorflow:tensorflow-lite-api:2.10.0'
+    implementation 'org.tensorflow:tensorflow-lite-gpu:2.10.0'
+    implementation 'org.tensorflow:tensorflow-lite-support:0.4.2'
     implementation 'org.tensorflow:tensorflow-lite-task-vision:0.2.0'
+    implementation 'org.tensorflow:tensorflow-lite-gpu-delegate-plugin:0.4.3'*/
     implementation 'androidx.appcompat:appcompat:1.2.0'
     implementation 'org.firstinspires.ftc:gameAssets-PowerPlay:1.0.0'
 }

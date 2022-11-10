@@ -7,8 +7,8 @@ import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
 
 @Disabled
-@Autonomous(name = "AutonomousRIGHT", group = "")
-public class Auto extends MasterOpMode {
+@Autonomous( name = "AutonomousLEFT", group = "")
+public class Auto2 extends MasterOpMode {
 
     public DcMotor RF;
     public DcMotor LF;
@@ -90,7 +90,7 @@ public class Auto extends MasterOpMode {
             L2.setTargetPosition(-840);
             L2.setPower(0.5);
             Twist.setPosition(0.7);
-            turnRight(-45, 0.6);
+            turnRight(40, 0.6);
             pauseMillis(900);
             forward(6,0.9);
             pauseMillis(500);
@@ -112,12 +112,12 @@ public class Auto extends MasterOpMode {
                 L2.setTargetPosition(-500);
                 L2.setPower(0.5);
                 LS.setPosition(0.8);
-                turnRight(135, 0.6);
+                turnRight(-135, 0.6);
                 pauseMillis(1500);
                 if (i == 0){
                     forward(14, 0.9);
                 } else{
-                    forward(15.5,0.9);
+                    forward(15,0.9);
                 }
                 pauseMillis(750);
                 //pick
@@ -130,13 +130,9 @@ public class Auto extends MasterOpMode {
                 L2.setPower(0.5);
                 Twist.setPosition(0.7);
                 pauseMillis(750);
-                if(i == 0) {
-                    forward(-16, 0.9);
-                }else{
-                    forward(-16.5,0.9);
-                }
+                forward (-16,0.9);
                 pauseMillis(750);
-                turnRight(-135, 0.6);
+                turnRight(135, 0.6);
                 pauseMillis(1400);
                 forward(7,0.9);
                 pauseMillis(500);
@@ -147,14 +143,13 @@ public class Auto extends MasterOpMode {
                 pauseMillis(500);
 
             }
-            turnRight(-50,0.6);
+            turnRight(50,0.6);
             pauseMillis(900);
             L1.setTargetPosition(-250);
             L1.setPower(0.5);
             L2.setTargetPosition(-500);
             L2.setPower(0.5);
             pauseMillis(2000);
-
         }
 
     }

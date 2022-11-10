@@ -27,17 +27,23 @@
  * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  */
 
-package org.firstinspires.ftc.robotcontroller.external.samples;
+package org.firstinspires.ftc.teamcode;
 
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
 import com.qualcomm.robotcore.eventloop.opmode.Disabled;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
 import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import java.util.List;
+import com.qualcomm.robotcore.eventloop.opmode.Autonomous;
+import com.qualcomm.robotcore.hardware.DcMotor;
+import com.qualcomm.robotcore.hardware.DcMotorSimple;
+import com.qualcomm.robotcore.hardware.Servo;
 import org.firstinspires.ftc.robotcore.external.ClassFactory;
 import org.firstinspires.ftc.robotcore.external.hardware.camera.WebcamName;
 import org.firstinspires.ftc.robotcore.external.navigation.VuforiaLocalizer;
 import org.firstinspires.ftc.robotcore.external.tfod.TFObjectDetector;
 import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
+import org.firstinspires.ftc.robotcore.external.tfod.Tfod;
 
 /**
  * This 2022-2023 OpMode illustrates the basics of using the TensorFlow Object Detection API to
@@ -49,9 +55,8 @@ import org.firstinspires.ftc.robotcore.external.tfod.Recognition;
  * IMPORTANT: In order to use this OpMode, you need to obtain your own Vuforia license key as
  * is explained below.
  */
-@TeleOp(name = "Concept: TensorFlow Object Detection Webcam", group = "Concept")
-@Disabled
-public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
+@Autonomous(name = "AutonomousLeft", group = "")
+public class ConceptTensorFlowObjectDetectionWebcam2 extends MasterOpMode {
 
     /*
      * Specify the source for the Tensor Flow Model.
@@ -83,7 +88,7 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
      * and paste it in to your code on the next line, between the double quotes.
      */
     private static final String VUFORIA_KEY =
-            " -- YOUR NEW VUFORIA KEY GOES HERE  --- ";
+            " AWktGC7/////AAABmWKXUU093URljMcDhIGHTBIugYP4MeuPxsZOHvXTJ1485UQh3wRflKKg00bzx405aB2YMMJEyw29YyMVwy1etB2GP4f+fyxFB2awpLUn/DJvGqg0XWq1UHhTx3bYVeeUknjDzyEl6Dgnvcht4W+xPwP0lFE4bMs636PtqZD3JCrFi3a6x8KFb5V3SXqaM6xwTeUuzzm/BeFMFYYJinA2POsyLEg/SWwf3mM/KmFiuIT+fvutHpthZ7+YPDgGbKnqa89ErtbbmKyrl8Lwlro9l2akeip/lJiXEcTIPmbVj5rxZbdLqS3q0Ltu6avyfLQGY2z30CMh4QFZMlFNWT2FPQ1GIg2HqZ19IVzc6Y9Yhg4Z";
 
     /**
      * {@link #vuforia} is the variable we will use to store our instance of the Vuforia
@@ -96,7 +101,16 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
      * Detection engine.
      */
     private TFObjectDetector tfod;
-
+    public DcMotor RF;
+    public DcMotor LF;
+    public DcMotor RB;
+    public DcMotor LB;
+    public DcMotor L1;
+    public DcMotor L2;
+    public DcMotor rIntake;
+    public DcMotor lIntake;
+    public Servo LS;
+    public Servo Twist;
     @Override
     public void runOpMode() {
         // The TFObjectDetector uses the camera frames from the VuforiaLocalizer, so we create that
@@ -123,10 +137,58 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
         /** Wait for the game to begin */
         telemetry.addData(">", "Press Play to start op mode");
         telemetry.update();
+
+        LB = hardwareMap.get(DcMotor.class, "LB");
+        LF = hardwareMap.get(DcMotor.class, "LF");
+        RB = hardwareMap.get(DcMotor.class, "RB");
+        RF = hardwareMap.get(DcMotor.class, "RF");
+
+        L1 = hardwareMap.get(DcMotor.class, "L1");
+        L2 = hardwareMap.get(DcMotor.class, "L2");
+        rIntake = hardwareMap.get(DcMotor.class, "rIntake");
+        lIntake = hardwareMap.get(DcMotor.class, "lIntake");
+        LS = hardwareMap.get(Servo.class, "LS");
+        Twist = hardwareMap.get(Servo.class, "Twist");
+
+       /* robot has the wheels placed backwards so when you give
+       positive power it moves backward so we reverse so this
+       is not confusing in the code*/
+        LF.setDirection(DcMotorSimple.Direction.REVERSE);
+        LB.setDirection(DcMotorSimple.Direction.REVERSE);
+
+        LF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RF.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        RB.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        LF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RF.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        LB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        RB.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+
+        L1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        L1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        L1.setTargetPosition(0);
+        L1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        L2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+        L2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+        L2.setTargetPosition(0);
+        L2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+
+        Twist.setPosition(0.31);
+        L1.setTargetPosition(180);
+        L1.setPower(0.5);
+        L2.setTargetPosition(-60);
+        L2.setPower(0.5);
+        LS.setPosition(0.7);
         waitForStart();
 
         if (opModeIsActive()) {
-            while (opModeIsActive()) {
+            long Start = System.currentTimeMillis();
+            long Current = 0;
+            String label = "3 Panel";
+            while (Current < 1000) {
+                Current = System.currentTimeMillis() - Start;
                 if (tfod != null) {
                     // getUpdatedRecognitions() will return null if no new information is available since
                     // the last time that call was made.
@@ -146,11 +208,101 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
                             telemetry.addData("Image", "%s (%.0f %% Conf.)", recognition.getLabel(), recognition.getConfidence() * 100 );
                             telemetry.addData("- Position (Row/Col)","%.0f / %.0f", row, col);
                             telemetry.addData("- Size (Width/Height)","%.0f / %.0f", width, height);
+                            label = recognition.getLabel();
                         }
                         telemetry.update();
                     }
                 }
             }
+            tfod.deactivate();
+            rIntake.setPower(0.5);
+            lIntake.setPower(-0.5);
+            forward(22, 0.8);
+            pauseMillis(600);
+            //pick
+            LS.setPosition(0.1);
+            pauseMillis(100);
+            rIntake.setPower(0);
+            lIntake.setPower(-0);
+            L2.setTargetPosition(150);
+            L2.setPower(0.5);
+            L1.setTargetPosition(150);
+            L1.setPower(0.5);
+            forward(26, 0.9);
+            pauseMillis(1250);
+            //arm up
+            L1.setTargetPosition(1175);
+            L1.setPower(0.5);
+            L2.setTargetPosition(-840);
+            L2.setPower(0.5);
+            Twist.setPosition(0.7);
+            turnRight(40, 0.6);
+            pauseMillis(900);
+            forward(6,0.9);
+            pauseMillis(500);
+
+            //drop stuff
+            LS.setPosition(0.7);
+            pauseMillis(500);
+            forward(-6,0.9);
+            //pauseMillis(500);
+            for(int i = 0; i<2; i++) {
+                //setting lower pos
+                Twist.setPosition(0.6);
+                if(i == 0) {
+                    L1.setTargetPosition(150);
+                }else{
+                    L1.setTargetPosition(50);
+                }
+                L1.setPower(0.5);
+                L2.setTargetPosition(-500);
+                L2.setPower(0.5);
+                LS.setPosition(0.8);
+                turnRight(-135, 0.6);
+                pauseMillis(1500);
+                if (i == 0){
+                    forward(14, 0.9);
+                } else{
+                    forward(15,0.9);
+                }
+                pauseMillis(750);
+                //pick
+                LS.setPosition(0.1);
+                pauseMillis(500);
+                //arm up
+                L1.setTargetPosition(1250);
+                L1.setPower(0.5);
+                L2.setTargetPosition(-840);
+                L2.setPower(0.5);
+                Twist.setPosition(0.7);
+                pauseMillis(750);
+                forward (-16,0.9);
+                pauseMillis(750);
+                turnRight(135, 0.6);
+                pauseMillis(1400);
+                forward(7,0.9);
+                pauseMillis(500);
+                //drop stuff
+                LS.setPosition(0.7);
+                pauseMillis(500);
+                forward(-7,0.9);
+                pauseMillis(500);
+
+            }
+            turnRight(50,0.6);
+            pauseMillis(900);
+            L1.setTargetPosition(-250);
+            L1.setPower(0.5);
+            L2.setTargetPosition(-500);
+            L2.setPower(0.5);
+            if (label.equals("1 Bolt")){
+                forward(-24,0.9);
+            }else if(label.equals("2 Bulb")){
+                forward(-3, 0.9);
+            }else{
+                forward(20, 0.9);
+            }
+            pauseMillis(2000);
         }
     }
 
@@ -164,7 +316,7 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
         VuforiaLocalizer.Parameters parameters = new VuforiaLocalizer.Parameters();
 
         parameters.vuforiaLicenseKey = VUFORIA_KEY;
-        parameters.cameraName = hardwareMap.get(WebcamName.class, "Webcam 1");
+        parameters.cameraName = hardwareMap.get(WebcamName.class, "camera");
 
         //  Instantiate the Vuforia engine
         vuforia = ClassFactory.getInstance().createVuforia(parameters);
@@ -175,7 +327,7 @@ public class ConceptTensorFlowObjectDetectionWebcam extends LinearOpMode {
      */
     private void initTfod() {
         int tfodMonitorViewId = hardwareMap.appContext.getResources().getIdentifier(
-            "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
+                "tfodMonitorViewId", "id", hardwareMap.appContext.getPackageName());
         TFObjectDetector.Parameters tfodParameters = new TFObjectDetector.Parameters(tfodMonitorViewId);
         tfodParameters.minResultConfidence = 0.75f;
         tfodParameters.isModelTensorFlow2 = true;

@@ -1,10 +1,8 @@
 package org.firstinspires.ftc.teamcode;
 
 
-import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.eventloop.opmode.LinearOpMode;
-import java.lang.Math;
-
+import com.qualcomm.robotcore.eventloop.opmode.TeleOp;
 import com.qualcomm.robotcore.hardware.DcMotor;
 import com.qualcomm.robotcore.hardware.DcMotorSimple;
 import com.qualcomm.robotcore.hardware.Servo;
@@ -125,6 +123,9 @@ public class TeleOpsProgram extends LinearOpMode {
                 RF.setPower(speeds[1] * speed);
                 LB.setPower(speeds[2] * speed);
                 RB.setPower(speeds[3] * speed);
+
+                //Perfect straight movement onto dpad
+
                 if(gamepad2.left_stick_y < -0.1){
                     tTicks += 6;
                     L1.setTargetPosition(tTicks);
@@ -136,8 +137,8 @@ public class TeleOpsProgram extends LinearOpMode {
                 }
                 if (gamepad2.a) {
                     LS.setPosition(0.7);
-                    tTicks = 180;
-                    tTicks2 = -60;
+                    tTicks = 330;
+                    tTicks2 = 310;
                     L1.setTargetPosition(tTicks);
                     L1.setPower(0.5);
                     L2.setTargetPosition(tTicks2);
@@ -145,9 +146,18 @@ public class TeleOpsProgram extends LinearOpMode {
                     tPos = 0.31;
 
                 }
+                if(gamepad2.y){
+                    tTicks = 1190;
+                    tTicks2 = -290;
+                    L1.setTargetPosition(tTicks);
+                    L1.setPower(0.5);
+                    L2.setTargetPosition(tTicks2);
+                    L2.setPower(0.5);
+                    tPos = 0.65;
+                }
                 if(gamepad2.x){
-                    tTicks = 1260;
-                    tTicks2 = -840;
+                    tTicks = 1250;
+                    tTicks2 = -500;
                     L1.setTargetPosition(tTicks);
                     L1.setPower(0.5);
                     L2.setTargetPosition(tTicks2);
@@ -210,11 +220,24 @@ public class TeleOpsProgram extends LinearOpMode {
                     L2.setPower(0.3);
                 }
                 if(gamepad2.dpad_down){
-                    rIntake.setPower(0.5);
-                    lIntake.setPower(-0.5);
+                    tPos = 0.6;
                     //Nakul is cool
                 }
+                if(gamepad2.right_trigger>0){
+                    L1.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                    L1.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    L1.setTargetPosition(0);
+                    L1.setMode(DcMotor.RunMode.RUN_TO_POSITION);
 
+                    L2.setMode(DcMotor.RunMode.RUN_USING_ENCODER);
+                    L2.setMode(DcMotor.RunMode.STOP_AND_RESET_ENCODER);
+                    L2.setTargetPosition(0);
+                    L2.setMode(DcMotor.RunMode.RUN_TO_POSITION);
+                    L1.setPower(0);
+                    L2.setPower(0);
+                    tTicks = 0;
+                    tTicks2 = 0;
+                }
 
                 telemetry.addData("LS:",LS.getPosition());
                 telemetry.addData("Twist:",tPos);

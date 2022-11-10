@@ -25,3 +25,6 @@ dependencies {
     implementation 'androidx.core:core-ktx:+'
     annotationProcessor files('lib/OpModeAnnotationProcessor.jar')
 }
+configurations.all {
+    resolutionStrategy { force 'androidx.core:core-ktx:1.6.0' }
+    }
